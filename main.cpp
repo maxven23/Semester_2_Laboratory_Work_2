@@ -1,8 +1,10 @@
 #include <iostream>
 
-#include "DynamicArray.h"
-#include "Sequence.h"
+#include "DynamicArray.hpp"
+#include "Sequence.hpp"
 #include "ArraySequence.hpp"
+#include "LinkedList.hpp"
+#include "ListSequence.hpp"
 
 using namespace std;
 

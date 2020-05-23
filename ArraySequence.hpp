@@ -1,6 +1,6 @@
 #pragma once
-#include "Sequence.h"
-#include "DynamicArray.h"
+#include "Sequence.hpp"
+#include "DynamicArray.hpp"
 
 template <class T>
 
@@ -12,7 +12,7 @@ public:
 	ArraySequence(int size) {
 		int current_size;
 		if (size < 0) {
-			std::cout << "WARNING!!! INPUTED SIZE < 0. IT WAS SETTED AS 1" << std::endl;
+			std::cout << "WARNING!!! INPUTED SIZE < 0. IT WAS SETTED TO 1" << std::endl;
 			current_size = 1;
 		}
 		else 
@@ -57,11 +57,93 @@ public:
 		this->items->Set(index, item);
 	};
 
-	virtual void Resize(int newsize) override {
-
-
+	virtual void Append(T item) override {
+		this->items->Resize(GetSize() + 1);
+		++this->size;
+		for (int i = 1; i < this->size; i++) {
+			this->items->Set(i, this->items->Get(i - 1));
+		}
+		this->items->Set(0, item);
 	};
 
+	virtual void Prepend(T item) override {
+		this->items->Resize(GetSize() + 1);
+		++this->size;
+		this->items->Set(this->size - 1, item);
+	};
+
+	virtual void Insert(int index, T item) override {
+		this->items->Resize(GetSize() + 1);
+		++this->size;
+		for (int i = index; i < this->size; i++) {
+			this->items->Set(i, this->items->Get(i - 1));
+		}
+		this->items->Set(index, item);
+	};
+
+	virtual void RemoveAt(int index) override {
+		if (index < 0 || index >= this->size)
+			throw std::exception("INDEX ERROR: Index out of range");
+		DynamicArray<T>* temp;
+		temp = new DynamicArray<T>(this->size - 1);
+		for (int i = 0; i < index; i++) {
+			temp->Set(i, this->items->Get(i));
+		}
+		for (int i = index; i < this->size; i++) {
+			temp->Set(i, this->items->Get(i));
+		}
+		delete items;
+		--this->size;
+		this->items = temp;
+	};
+
+	virtual void Remove(T item) override {
+		for (int i = 0; i < this->size; i++) {
+			if (this->items->Get(i) == item) {
+				RemoveAt(i);
+				break;
+			}
+		}
+	};
+
+	virtual void RemoveAll(T item) override {
+		for (int i = 0; i < this->size; i++) {
+			if (this->items->Get(i) == item) {
+				RemoveAt(i);
+				i--;
+			}
+		}
+	};
+
+	virtual Sequence<T>* Copy() override {
+		ArraySequence<T>* copy;
+		copy = new ArraySequence<T>(this->items->GetSize(), this->items);
+		return copy;
+	};
+
+	virtual Sequence<T>* GetSubSequence(int start, int end) override {
+		if (start < 0 || start >= this->size || end < 0 || end >= this->size)
+			throw std::exception("INDEX ERROR: Index out of range");
+		ArraySequence<T>* subseq;
+		subseq = new ArraySequence(end - start + 1);
+		int previndex = 0;
+		for (int i = start; i < end; i++) {
+			subseq->items->Set(previndex, this->items->Get(i));
+			++previndex;
+		}
+		return subseq;
+	};
+
+	virtual Sequence<T>* Concat(Sequence<T>* toConcat) override {
+		ArraySequence<T>* conc;
+		conc = new ArraySequence<T>(this->size + toConcat->GetSize());
+		for (int i = 0; i < this->size; i++) {
+			conc->items->Set(i, this->items->Get(i));
+		}
+		for (int i = 0; i < toConcat->GetSize(); i++) {
+			conc->items->Set(this->size + i, toConcat->Get(i));
+		}
+		return conc;
+	};
 
 };
-
