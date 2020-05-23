@@ -9,10 +9,10 @@ public:
 	virtual Sequence<T>* Copy() = 0;
 	virtual Sequence<T>* Concat(Sequence<T>* toConcat) = 0;
 
-	virtual int GetSize() = 0;
-	virtual T Get(int index) = 0;
-	virtual T GetLast() = 0;
-	virtual T GetFirst() = 0;
+	virtual int GetSize() const = 0;
+	virtual T Get(int index) const = 0;
+	virtual T GetLast() const = 0;
+	virtual T GetFirst() const = 0;
 
 	virtual void Set(int index, T item) = 0;
 	virtual void Append(T item) = 0;

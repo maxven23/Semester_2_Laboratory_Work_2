@@ -38,7 +38,7 @@ public:
 	};
 
 	virtual int GetSize() const override {
-		return this->items->GetSize;
+		return this->items->GetSize();
 	};
 
 	virtual T Get(const int index) const override {
