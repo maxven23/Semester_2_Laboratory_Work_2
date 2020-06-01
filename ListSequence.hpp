@@ -9,6 +9,7 @@ private:
 	LinkedList<T>* items;
 	int size;
 public:
+	// Конструкторы
 	ListSequence() {
 		this->items = new LinkedList<T>();
 		this->size = 0;
@@ -30,39 +31,55 @@ public:
 		}
 	};
 
+	// Получение длины послед.
 	virtual int GetSize() const override {
 		return this->items->GetSize();
 	};
 
+	// Получение элемента послед. по индексу
 	virtual T Get(const int index) const override {
 		if (index < 0 || index > this->size)
 			throw std::exception("INDEX ERROR: Index out of range");
 		return this->items->Get(index);
 	};
 
+	// Получение последнего элемента послед.
 	virtual T GetLast() const override {
 		return this->items->GetLast();
 	};
 
+	// Получение первого элемента послед.
 	virtual T GetFirst() const override {
 		return this->items->GetFirst();
 	};
 
+	// Добавление элемента в начало
 	virtual void Append(T item) override {
 		this->items->Append(item);
 		++this->size;
 	};
 
+	// Добавление элемента в конец
 	virtual void Prepend(T item) override {
 		this->items->Prepend(item);
 		++this->size;
 	};
 
+	// Добавление элемента по индексу
 	virtual void InsertAt(T item, int index) override {
 		this->items->InsertAt(item, index);
 		++this->size;
 	};
 
+
+	// Удаление элемента по индексу
+	virtual void RemoveAt(int index) override {
+		if (index < 0 || index >= this->size)
+			throw std::exception("INDEX ERROR: Index out of range");
+		this->items->RemoveAt(index);
+	};
+
+	// Удаление элемента по значению
 	virtual void Remove(T item) override {
 		for (int i = 0; i < this->size; i++) {
 			if (this->items->Get(i) == item) {
@@ -70,15 +87,10 @@ public:
 				break;
 			}
 		}
-		++this->size;
+		--this->size;
 	};
 
-	virtual void RemoveAt(int index) override {
-		if (index < 0 || index >= this->size)
-			throw std::exception("INDEX ERROR: Index out of range");
-		this->items->RemoveAt(index);
-	};
-
+	// Удаление всех элементов по значению
 	virtual void RemoveAll(T item) override {
 		for (int i = 0; i < this->size; i++) {
 			if (this->items->Get(i) == item) {
@@ -88,6 +100,7 @@ public:
 		}
 	};
 
+	// Объединение послед.
 	virtual Sequence<T>* Concat(Sequence<T>* toConcat) override {
 		ListSequence<T>* tempList;
 		tempList = new ListSequence<T>();
@@ -104,6 +117,7 @@ public:
 		}
 	};
 
+	// Получение подпослед. по индексам
 	virtual Sequence<T>* GetSubSequence(int start, int end) override {
 		if (start < 0 || start >= this->size || end < 0 || end >= this->size || end < start)
 			throw std::exception("INDEX ERROR: Index out of range");
@@ -114,6 +128,7 @@ public:
 		return newList;
 	};
 
+	// Копирование послед.
 	virtual Sequence<T>* Copy() override {
 		ListSequence<T>* copy;
 		copy = new ListSequence();
@@ -122,6 +137,7 @@ public:
 		}
 	};
 
+	// Деструктор
 	~ListSequence() {
 		while (this->size != 0)
 			this->items->fPop();

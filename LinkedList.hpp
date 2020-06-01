@@ -5,6 +5,7 @@ template <class T>
 class LinkedList 
 {
 private:
+	// Класс узла списка
 	template <class T> 
 	class Node {
 	public:
@@ -19,6 +20,7 @@ private:
 	Node<T>* head;
 	int size;
 public:
+	// Конструкторы
 	LinkedList() {
 		this->size = 0;
 		head = nullptr;
@@ -58,10 +60,12 @@ public:
 		}
 	};
 	
+	// Получение длины списка
 	int GetSize() {
 		return this->size;
 	}
 
+	// Получение элемента по индексу
 	T Get(int index) {
 		if (index < 0 || index >= this->size)
 			throw std::exception("INDEX ERROR: Index out of range");
@@ -76,6 +80,7 @@ public:
 		}
 	};
 
+	// Получение первого и последнего элемента соотвественно (с головы)
 	T GetFirst() {
 		return Get(0);
 	};
@@ -84,11 +89,13 @@ public:
 		return Get(this->size - 1);
 	};
 
+	// Добавление узла в начало списка
 	void Append(T item) {
 		this->head = new Node<T>(item, this->head);
 		++this->size;
 	};
 
+	// Добавление узла в конец списка
 	void Prepend(T item) {
 		if (head == nullptr)
 			this->head = new Node<T>(item);
@@ -103,6 +110,7 @@ public:
 		++this->size;
 	};
 
+	// Вставка узла по индексу
 	void InsertAt(T item, int index) {
 		if (index < 0 || index >= this->size)
 			throw std::exception("INDEX ERROR: Index out of range");
@@ -119,6 +127,7 @@ public:
 		}
 	};
 
+	// Удаление узла
 	void fPop() {
 		Node<T>* temp;
 		temp = this->head;
@@ -127,6 +136,7 @@ public:
 		--this->size;
 	};
 
+	// Удаление узла по индексу
 	void RemoveAt(int index) {
 		if (index < 0 || index >= this->size)
 			throw std::exception("INDEX ERROR: Index out of range");
@@ -147,6 +157,7 @@ public:
 		}
 	};
 
+	// Получение "подсписка" по начальному и конечному индексам
 	LinkedList<T>* GetSubList(int start, int end) {
 		if (start < 0 || start >= this->size || end < 0 || end >= this->size || end < start)
 			throw std::exception("INDEX ERROR: Index out of range");
@@ -162,11 +173,13 @@ public:
 		return tempList;
 	};
 
+	// Деструктор
 	~LinkedList() {
 		while (this->size != 0)
 			fPop();
-	}
+	};
 
+	// Переопределение квадратных скобок
 	T& operator [] (const int index) {
 		if (index < 0 || index >= this->size)
 			throw std::exception("INDEX ERROR: Index out of range");
@@ -180,5 +193,5 @@ public:
 			temp = temp->pnext;
 			++temp_i;
 		}
-	}
+	};
 };

@@ -9,6 +9,7 @@ private:
 	DynamicArray<T>* items;
 	int size;
 public:
+	// Конструкторы
 	ArraySequence(int size) {
 		int current_size;
 		if (size < 0) {
@@ -37,26 +38,32 @@ public:
 		this->items = new DynamicArray(tocopy->items);
 	};
 
+	// Получение размера последовательности
 	virtual int GetSize() const override {
 		return this->items->GetSize();
 	};
 
+	// Получение элемента последовательности по индексу
 	virtual T Get(const int index) const override {
 		return this->items->Get(index);
 	};
 
+	// Получение последнего элемента последовательности
 	virtual T GetLast() const override {
 		return this->items->GetLast();
 	};
 
+	// Получение первого элемента последовательности
 	virtual T GetFirst() const override {
 		return this->items->GetFirst();
 	};
 
+	// Установка / изменение элемента по индексу
 	virtual void Set(int index, T item) override {
 		this->items->Set(index, item);
 	};
 
+	// Добавление элемента в начало
 	virtual void Append(T item) override {
 		this->items->Resize(GetSize() + 1);
 		++this->size;
@@ -66,12 +73,14 @@ public:
 		this->items->Set(0, item);
 	};
 
+	// Добавление элемента в конец
 	virtual void Prepend(T item) override {
 		this->items->Resize(GetSize() + 1);
 		++this->size;
 		this->items->Set(this->size - 1, item);
 	};
 
+	// Добавление элемента по индексу
 	virtual void Insert(int index, T item) override {
 		this->items->Resize(GetSize() + 1);
 		++this->size;
@@ -81,6 +90,7 @@ public:
 		this->items->Set(index, item);
 	};
 
+	// Удаление элемента по иднексу
 	virtual void RemoveAt(int index) override {
 		if (index < 0 || index >= this->size)
 			throw std::exception("INDEX ERROR: Index out of range");
@@ -97,6 +107,7 @@ public:
 		this->items = temp;
 	};
 
+	// Удаление элемента по значению
 	virtual void Remove(T item) override {
 		for (int i = 0; i < this->size; i++) {
 			if (this->items->Get(i) == item) {
@@ -106,21 +117,26 @@ public:
 		}
 	};
 
+	// Удаление всех одинаковых элементов
 	virtual void RemoveAll(T item) override {
-		for (int i = 0; i < this->size; i++) {
+		int tempsize = this->size;
+		for (int i = 0; i < tempsize; i++) {
 			if (this->items->Get(i) == item) {
 				RemoveAt(i);
+				tempsize--;
 				i--;
 			}
 		}
 	};
 
+	// Копирование последовательности
 	virtual Sequence<T>* Copy() override {
 		ArraySequence<T>* copy;
 		copy = new ArraySequence<T>(this->items->GetSize(), this->items);
 		return copy;
 	};
 
+	// Получение подпослед. по индексам
 	virtual Sequence<T>* GetSubSequence(int start, int end) override {
 		if (start < 0 || start >= this->size || end < 0 || end >= this->size)
 			throw std::exception("INDEX ERROR: Index out of range");
@@ -134,6 +150,7 @@ public:
 		return subseq;
 	};
 
+	// Объединение двух последовательностей
 	virtual Sequence<T>* Concat(Sequence<T>* toConcat) override {
 		ArraySequence<T>* conc;
 		conc = new ArraySequence<T>(this->size + toConcat->GetSize());
@@ -146,4 +163,8 @@ public:
 		return conc;
 	};
 
+	// Изменение размера последовательности
+	virtual void Resize(int newsize) override {
+		this->items->Resize(newsize);
+	};
 };
