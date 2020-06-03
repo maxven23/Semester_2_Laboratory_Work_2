@@ -34,8 +34,8 @@ public:
 	};
 
 	ArraySequence(const ArraySequence<T>& tocopy) {
-		this->size = tocopy->size;
-		this->items = new DynamicArray(tocopy->items);
+		this->size = tocopy.size;
+		this->items = new DynamicArray(tocopy.items);
 	};
 
 	// Получение размера последовательности
@@ -65,29 +65,41 @@ public:
 
 	// Добавление элемента в начало
 	virtual void Append(T item) override {
-		this->items->Resize(GetSize() + 1);
-		++this->size;
-		for (int i = 1; i < this->size; i++) {
-			this->items->Set(i, this->items->Get(i - 1));
+		DynamicArray<T>* temp = new DynamicArray<T>(this->GetSize() + 1);
+		for (int i = 1; i < this->size + 1; i++) {
+			temp->Set(i, this->items->Get(i - 1));
 		}
-		this->items->Set(0, item);
+		temp->Set(0, item);
+		++this->size;
+		delete[] this->items;
+		this->items = temp;
 	};
 
 	// Добавление элемента в конец
 	virtual void Prepend(T item) override {
-		this->items->Resize(GetSize() + 1);
+		DynamicArray<T>* temp = new DynamicArray<T>(this->GetSize() + 1);
+		for (int i = 0; i < this->size; i++) {
+			temp->Set(i, this->items->Get(i));
+		}
+		temp->Set(this->GetSize(), item);
 		++this->size;
-		this->items->Set(this->size - 1, item);
+		delete[] this->items;
+		this->items = temp;
 	};
 
 	// Добавление элемента по индексу
 	virtual void Insert(int index, T item) override {
-		this->items->Resize(GetSize() + 1);
-		++this->size;
-		for (int i = index; i < this->size; i++) {
-			this->items->Set(i, this->items->Get(i - 1));
+		DynamicArray<T>* temp = new DynamicArray<T>(this->GetSize() + 1);
+		for (int i = 0; i < index; i++) {
+			temp->Set(i, this->items->Get(i));
 		}
-		this->items->Set(index, item);
+		temp->Set(index, item);
+		for (int i = index + 1; i < this->GetSize() + 1; i++) {
+			temp->Set(i, this->items->Get(i - 1));
+		}
+		++this->size;
+		delete[] this->items;
+		this->items = temp;
 	};
 
 	// Удаление элемента по иднексу
@@ -99,12 +111,13 @@ public:
 		for (int i = 0; i < index; i++) {
 			temp->Set(i, this->items->Get(i));
 		}
-		for (int i = index; i < this->size; i++) {
+		for (int i = index + 1; i < this->size; i++) {
 			temp->Set(i, this->items->Get(i));
 		}
 		delete items;
 		--this->size;
 		this->items = temp;
+		delete[] temp;
 	};
 
 	// Удаление элемента по значению
@@ -161,10 +174,5 @@ public:
 			conc->items->Set(this->size + i, toConcat->Get(i));
 		}
 		return conc;
-	};
-
-	// Изменение размера последовательности
-	virtual void Resize(int newsize) override {
-		this->items->Resize(newsize);
 	};
 };

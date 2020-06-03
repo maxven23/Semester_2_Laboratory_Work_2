@@ -21,10 +21,10 @@ public:
 	}
 
 	DynamicArray(const DynamicArray<T> &array) {
-		this->size = array->GetSize();
+		this->size = array.GetSize();
 		this->items = new T[this->size];
 		for (int i = 0; i < this->size; i++) {
-			this->Set(i, array->Get(i));
+			this->Set(i, array.Get(i));
 		}
 
 	}
@@ -63,38 +63,6 @@ public:
 			throw std::exception("IDNEX ERROR: Index out of range");
 		this->items[index] = value;
 	}
-
-	// Изменение размера массива
-	void Resize(int newsize) {
-		if (newsize < 0)
-			throw std::exception("INVALID INPUT: New size < 0");
-
-		else if (newsize > this->size) {
-			T* newItems = new T[size];
-			for (int i = 0; i < this->size; i++) {
-				newItems[i] = this->items[i];
-			}
-			for (int i = this->size; i < newsize; i++) {
-				newItems[i] = { 0 };
-			}
-			this->size = newsize;
-			delete[] this->items;
-			this->items = newItems;
-		}
-
-		else if (newsize < this->size) {
-			T* newItems = new T[newsize];
-			for (int i = 0; i < newsize; i++) {
-				newItems[i] = this->items[i];
-			}
-			this->size = newsize;
-			delete[] this->items;
-			this->items = newItems;
-		}
-
-		else
-			std::cout << "New size is equal to previous size" << std::endl;
-	};
 	
 	// Деструктор
 	~DynamicArray() {

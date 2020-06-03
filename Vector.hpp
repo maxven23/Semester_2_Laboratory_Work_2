@@ -117,7 +117,33 @@ public:
 
 	// Изменение размерности вектора
 	void ChangeDim(int newdim) {
-		this->coords->Resize(newdim);
+		if (newdim < 0) {
+			throw std::exception("INVALID INPUD: New size < 0");
+		}
+
+		ArraySequence<T>* newcoords = new ArraySequence<T>(newdim);
+
+		if (newdim < this->GetDim()) {
+			for (int i = 0; i < newdim; i++) {
+				newcoords->Set(i, this->coords->Get(i));
+			}
+		}
+
+		else if (newdim > this->GetDim()) {
+			for (int i = 0; i < this->GetDim(); i++) {
+				newcoords->Set(i, this->coords->Get(i));
+			}
+			for (int i = this->GetDim(); i < newdim; i++) {
+				newcoords->Set(i, { 0 });
+			}
+		}
+		
+		else {
+			cout << "New Dimension is equal to Current Dimension" << endl;
+		}
+
+		delete[] this->coords;
+		this->coords = newcoords;
 		this->dim = newdim;
 	};
 };

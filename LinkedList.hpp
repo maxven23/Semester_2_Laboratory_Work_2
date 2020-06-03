@@ -28,10 +28,10 @@ public:
 
 	LinkedList(LinkedList<T>& list) {
 		this->head = nullptr;
-		this->size = list->Getsize();
-		for (int i = 0; i < list->GetSize(); i++)
+		this->size = list.Getsize();
+		for (int i = 0; i < list.GetSize(); i++)
 		{
-			this->Prepend(list->Get(i));
+			this->Prepend(list.Get(i));
 		}
 	};
 
@@ -39,7 +39,7 @@ public:
 		if (size < 0)
 			throw std::exception("INVALID INPUT: Size < 0");
 		this->head = nullptr;
-		T ptemp;
+		T* ptemp;
 		this->size = size;
 		for (int i = 0; i < size; i++)
 		{
@@ -102,7 +102,7 @@ public:
 		else {
 			Node<T>* temp;
 			temp = this->head;
-			while (temp != nullptr) {
+			while (temp->pnext != nullptr) {
 				temp = temp->pnext;
 			}
 			temp->pnext = new Node(item);
@@ -129,6 +129,9 @@ public:
 
 	// Удаление узла
 	void fPop() {
+		if (this->GetSize() == 0) {
+			throw std::exception("INDEX ERROR: Empty list");
+		}
 		Node<T>* temp;
 		temp = this->head;
 		this->head = this->head->pnext;
@@ -147,7 +150,7 @@ public:
 			Node<T>* temp;
 			Node<T>* del;
 			temp = this->head;
-			for (int i = 0; i < this->size - 1; i++) {
+			for (int i = 0; i < index; i++) {
 				temp = temp->pnext;
 			}
 			del = temp->pnext;
@@ -170,6 +173,7 @@ public:
 		for (int i = 0; i < end - start + 1; i++) {
 			tempList->Prepend(temp[i]);
 		}
+		delete[] temp;
 		return tempList;
 	};
 

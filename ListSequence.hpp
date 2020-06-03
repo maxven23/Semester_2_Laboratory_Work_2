@@ -24,10 +24,10 @@ public:
 	};
 
 	ListSequence(const ListSequence<T>& list) {
-		this->size = list->size;
-		this->items = new LinkedList<T>(list->GetSize());
-		for (int i = 0; i < list->GetSize(); i++) {
-			this->Prepend(list->Get(i));
+		this->size = list.size;
+		this->items = new LinkedList<T>(list.GetSize());
+		for (int i = 0; i < list.GetSize(); i++) {
+			this->Prepend(list.Get(i));
 		}
 	};
 
@@ -77,6 +77,7 @@ public:
 		if (index < 0 || index >= this->size)
 			throw std::exception("INDEX ERROR: Index out of range");
 		this->items->RemoveAt(index);
+		--this->size;
 	};
 
 	// Удаление элемента по значению
@@ -109,7 +110,7 @@ public:
 		for (int i = 0; i < this->GetSize(); i++) {
 			temp[i] = this->Get(i);
 		}
-		for (int i = 0; i < toConcat->Get(i); i++) {
+		for (int i = 0; i < toConcat->GetSize(); i++) {
 			temp[i + this->GetSize()] = toConcat->Get(i);
 		}
 		for (int i = 0; i < this->GetSize() + toConcat->GetSize(); i++) {
@@ -125,6 +126,7 @@ public:
 		newList = new ListSequence();
 		newList->items = this->items->GetSubList(start, end);
 		newList->size = newList->GetSize();
+		this->size = newList->GetSize();
 		return newList;
 	};
 

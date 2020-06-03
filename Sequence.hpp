@@ -24,5 +24,4 @@ public:
 	virtual void Remove(T item) = 0;
 	virtual void RemoveAll(T item) = 0;
 	virtual void RemoveAt(int index) = 0;
-	virtual void Resize(int newsize) = 0;
 };

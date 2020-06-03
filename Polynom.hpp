@@ -4,7 +4,6 @@
 #include "ListSequence.hpp"
 #include "DynamicArray.hpp"
 #include "LinkedList.hpp"
-#include <complex>
 
 template <class T>
 
@@ -139,8 +138,12 @@ public:
 	void Compose(Polynom<T>& poly) {
 		Polynom<T>* newpoly;
 		newpoly = new Polynom<T>(this->GetDegree() * poly.GetDegree());
+		for (int i = 0; i < this->GetDegree(); i++) {
+			for (int k = 0; k < i; k++) {
 
+
+			}
+
+		}
 	};
-	
-
 };
