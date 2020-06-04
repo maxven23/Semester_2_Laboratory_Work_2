@@ -56,7 +56,7 @@ public:
 				{
 					temp = temp->pnext;
 				}
-				temp->pnext = new Node<T>(ptemp);
+				temp->pnext = new Node<T>(*ptemp);
 			}
 		}
 	};
