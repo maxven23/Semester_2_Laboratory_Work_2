@@ -39,14 +39,15 @@ public:
 		if (size < 0)
 			throw std::exception("INVALID INPUT: Size < 0");
 		this->head = nullptr;
-		T* ptemp;
+		T ptemp;
 		this->size = size;
 		for (int i = 0; i < size; i++)
 		{
-			ptemp = items;
+			//ptemp = items;
+			ptemp = *(items + i);
 			if (head == nullptr)
 			{
-				head = new Node<T>(ptemp);
+				head = new Node<T>(*ptemp);
 			}
 			else
 			{
