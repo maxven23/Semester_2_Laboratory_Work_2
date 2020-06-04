@@ -43,7 +43,7 @@ public:
 		this->size = size;
 		for (int i = 0; i < size; i++)
 		{
-			ptemp = *(items + i);
+			ptemp = &items[i];
 			if (head == nullptr)
 			{
 				head = new Node<T>(*ptemp);
